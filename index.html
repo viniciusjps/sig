@@ -1,16 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Projeto SIG</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/openlayers/4.6.5/ol.js" integrity="sha512-O7kHS9ooekX8EveiC94z9xSvD/4xt10Qigl6uEKvspYykdux3Ci5QNu5fwi4ca0ZkZI/oCgx5ja8RklWUEqzxQ==" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">
+  <title>Projeto SIG - Dados CELEPAR</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css"
+    type="text/css">
   <link rel="stylesheet" href="./src/styles.css">
 </head>
+
 <body>
   <div id="map" class="map"></div>
+  <div class="menu">
+    <div class="header">
+      <h4>Selecionar camadas</h4>
+    </div>
+    <div class="options">
+      <div class="item" id="municipios">
+        <p id="municipios">Municípios do Paraná 2014</p>
+        <input type="checkbox" name="municipios" id="municipios">
+      </div>
+      <div class="item" id="rodovias">
+        <p id="rodovias">Rodovias Unificadas (2013)</p>
+        <input type="checkbox" name="rodovias" id="rodovias">
+      </div>
+      <div class="item" id="hidrografia">
+        <p id="hidrografia">Hidrografia Generalizada</p>
+        <input type="checkbox" name="hidrografia" id="hidrografia">
+      </div>
+      <div class="item" id="policia_1">
+        <p id="policia_1">Polícia Rodoviária Estadual</p>
+        <input type="checkbox" name="policia_1" id="policia_1">
+      </div>
+      <div class="item" id="universidades">
+        <p id="universidades">Dados das Universidades IEES</p>
+        <input type="checkbox" name="universidades" id="universidades">
+      </div>
+      <div class="item" id="etanol">
+        <p id="etanol">Usinas de Etanol</p>
+        <input type="checkbox" name="etanol" id="etanol">
+      </div>
+    </div>
+  </div>
   <script src="./src/index.js"></script>
 </body>
+
 </html>
