@@ -89,60 +89,6 @@ const map = new Map({
     new TileLayer({
       source: new OSM()
     }),
-    // new Image({
-    //   title: 'Municípios do Paraná 2014 - Escala 1:50.000 [ITCG]',
-    //   source: new ImageWMS({
-    //     url: 'http://localhost:8080/geoserver/wms',
-    //     params: { 'LAYERS': 'cite:municipios_pr_pol_p31982_e50_a2014' },
-    //     ratio: 1,
-    //     serverType: 'geoserver'
-    //   })
-    // }),
-    // new Image({
-    //   title: 'Rodovias Unificadas (2013) [SEIL/DER]',
-    //   source: new ImageWMS({
-    //     url: 'http://localhost:8080/geoserver/wms',
-    //     params: { 'LAYERS': 'cite:rodovias_unificadas_lin_p29192_a2013' },
-    //     ratio: 1,
-    //     serverType: 'geoserver'
-    //   })
-    // }),
-    // new Image({
-    //   title: 'Hidrografia Generalizada [SEMA_AGUASPARANA]',
-    //   source: new ImageWMS({
-    //     url: 'http://localhost:8080/geoserver/wms',
-    //     params: { 'LAYERS': 'cite:hidrografia_generalizada_lin_p31982_e50_a2011_v002' },
-    //     ratio: 1,
-    //     serverType: 'geoserver'
-    //   })
-    // }),
-    // new Image({
-    //   title: 'Polícia Rodoviária Estadual [SESP]',
-    //   source: new ImageWMS({
-    //     url: 'http://localhost:8080/geoserver/wms',
-    //     params: { 'LAYERS': 'cite:policia_rodoviaria_estadual_pto_p4674' },
-    //     ratio: 1,
-    //     serverType: 'geoserver'
-    //   })
-    // }),
-    // new Image({
-    //   title: 'Dados Universidades IEES [SETI]',
-    //   source: new ImageWMS({
-    //     url: 'http://localhost:8080/geoserver/wms',
-    //     params: { 'LAYERS': 'cite:dado_universidade_iees_pto_p29192' },
-    //     ratio: 1,
-    //     serverType: 'geoserver'
-    //   })
-    // }),
-    // new Image({
-    //   title: 'Usinas de Etanol',
-    //   source: new ImageWMS({
-    //     url: 'http://localhost:8080/geoserver/wms',
-    //     params: { 'LAYERS': 'cite:usinas_etanol_pto_p4674' },
-    //     ratio: 1,
-    //     serverType: 'geoserver'
-    //   })
-    // })
   ],
   view: new View({
     center: [0, 0],
