@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,8 +10,8 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css"
     type="text/css">
   <link rel="stylesheet" href="./src/styles.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 </head>
-
 <body>
   <div id="map" class="map"></div>
   <div class="menu">
@@ -46,7 +45,10 @@
       </div>
     </div>
   </div>
+  <div id="popup" class="ol-popup">
+    <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+    <div id="popup-content"></div>
+  </div>
   <script src="./src/index.js"></script>
 </body>
-
 </html>
