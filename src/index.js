@@ -5,6 +5,7 @@ import OSM from 'ol/source/OSM';
 import Image from 'ol/layer/Image';
 import ImageWMS from 'ol/source/ImageWMS';
 import Overlay from 'ol/Overlay';
+import { fromLonLat } from "ol/proj";
 
 var container = document.getElementById('popup');
 var content = document.getElementById('popup-content');
@@ -26,6 +27,7 @@ closer.onclick = function () {
 
 const selected = {
   municipios: false,
+  mesorregioes: false,
   rodovias: false,
   hidrografia: false,
   policia_1: false,
@@ -41,6 +43,17 @@ var municipios = new Image({
     ratio: 1,
     serverType: 'geoserver'
   })
+})
+
+var mesorregioes = new Image({
+  title: 'mesorregioes',
+  source: new ImageWMS({
+    url: 'http://localhost:8080/geoserver/cite/wms',
+    params: { 'LAYERS': 'cite:mesorregioes' },
+    ratio: 1,
+    serverType: 'geoserver'
+  }),
+  opacity: 0.5
 })
 
 var rodovias = new Image({
@@ -95,6 +108,7 @@ var etanol = new Image({
 
 const layers = {
   municipios: municipios,
+  mesorregioes: mesorregioes,
   rodovias: rodovias,
   hidrografia: hidrografia,
   policia_1: policia_1,
@@ -103,8 +117,8 @@ const layers = {
 }
 
 var view = new View({
-  center: [0, 0],
-  zoom: 0
+  center: fromLonLat([-51, -24.5]),
+  zoom: 7
 });
 
 var viewProjection = view.getProjection();
@@ -121,6 +135,7 @@ const map = new Map({
 });
 
 document.getElementById('municipios').addEventListener('click', setLayer, false)
+document.getElementById('mesorregioes').addEventListener('click', setLayer, false)
 document.getElementById('rodovias').addEventListener('click', setLayer, false)
 document.getElementById('hidrografia').addEventListener('click', setLayer, false)
 document.getElementById('policia_1').addEventListener('click', setLayer, false)
@@ -150,6 +165,9 @@ map.on('singleclick', function(evt){
   var urlMunicipios = municipios.getSource().getFeatureInfoUrl(
     coordinate, viewResolution, viewProjection, {'INFO_FORMAT':'text/html'}
   )
+  var urlMesorregioes = mesorregioes.getSource().getFeatureInfoUrl(
+    coordinate, viewResolution, viewProjection, {'INFO_FORMAT':'text/html'}
+  )
   var urlRodovias = rodovias.getSource().getFeatureInfoUrl(
     coordinate, viewResolution, viewProjection, {'INFO_FORMAT':'text/html'}
   )
@@ -168,6 +186,7 @@ map.on('singleclick', function(evt){
 
   var urls = new Map()
   urls.set('municipios', urlMunicipios)
+  urls.set('mesorregioes', urlMesorregioes)
   urls.set('rodovias', urlRodovias)
   urls.set('hidrografia', urlHidrografia)
   urls.set('policia_1', urlPolicia)
