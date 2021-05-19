@@ -75,7 +75,7 @@ var hidrografia = new Image({
     serverType: 'geoserver'
   })
 })
-    
+
 var policia_1 = new Image({
   title: 'Polícia Rodoviária Estadual [SESP]',
   source: new ImageWMS({
@@ -158,30 +158,30 @@ function setLayer(value) {
   }
 }
 
-map.on('singleclick', function(evt){
+map.on('singleclick', function (evt) {
   var coordinate = evt.coordinate;
   var viewResolution = /** @type {number} */ (view.getResolution());
 
   var urlMunicipios = municipios.getSource().getFeatureInfoUrl(
-    coordinate, viewResolution, viewProjection, {'INFO_FORMAT':'text/html'}
+    coordinate, viewResolution, viewProjection, { 'INFO_FORMAT': 'text/html' }
   )
   var urlMesorregioes = mesorregioes.getSource().getFeatureInfoUrl(
-    coordinate, viewResolution, viewProjection, {'INFO_FORMAT':'text/html'}
+    coordinate, viewResolution, viewProjection, { 'INFO_FORMAT': 'text/html' }
   )
   var urlRodovias = rodovias.getSource().getFeatureInfoUrl(
-    coordinate, viewResolution, viewProjection, {'INFO_FORMAT':'text/html'}
+    coordinate, viewResolution, viewProjection, { 'INFO_FORMAT': 'text/html' }
   )
   var urlHidrografia = hidrografia.getSource().getFeatureInfoUrl(
-    coordinate, viewResolution, viewProjection, {'INFO_FORMAT':'text/html'}
+    coordinate, viewResolution, viewProjection, { 'INFO_FORMAT': 'text/html' }
   )
   var urlPolicia = policia_1.getSource().getFeatureInfoUrl(
-    coordinate, viewResolution, viewProjection, {'INFO_FORMAT':'text/html'}
+    coordinate, viewResolution, viewProjection, { 'INFO_FORMAT': 'text/html' }
   )
   var urlUniversidades = universidades.getSource().getFeatureInfoUrl(
-    coordinate, viewResolution, viewProjection, {'INFO_FORMAT':'text/html'}
+    coordinate, viewResolution, viewProjection, { 'INFO_FORMAT': 'text/html' }
   )
   var urlEtanol = etanol.getSource().getFeatureInfoUrl(
-    coordinate, viewResolution, viewProjection, {'INFO_FORMAT':'text/html'}
+    coordinate, viewResolution, viewProjection, { 'INFO_FORMAT': 'text/html' }
   )
 
   var urls = new Map()
@@ -192,40 +192,48 @@ map.on('singleclick', function(evt){
   urls.set('policia_1', urlPolicia)
   urls.set('universidades', urlUniversidades)
   urls.set('etanol', urlEtanol)
-  
+
   for (const [key, value] of Object.entries(selected)) {
-    if(value){
+    if (value) {
       getAjaxResult(urls.get(key), coordinate)
     }
   }
 })
 
 function getAjaxResult(urlParam, coordinate) {
-  if(urlParam){
+  if (urlParam) {
     $.ajax({
       url: urlParam,
       crossDomain: true,
-      success: function(result){
+      success: function (result) {
         handleResult(result, coordinate)
       },
-      error: function(jqXHR, textStatus, errorThrown){
-        console.log('erro: '+ errorThrown)
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.log('erro: ' + errorThrown)
       }
     })
   }
 }
 
-function handleResult(result, coordinate){
+function handleResult(result, coordinate) {
   var html = subStringBody(result);
   content.innerHTML = result;
   overlay.setPosition(coordinate);
 }
 
-function subStringBody(html){
+function subStringBody(html) {
   var i = html.indexOf("<body>");
   var f = html.indexOf("</body>");
-  if(i>=0 && f>=0){
-    i+=6.
+  if (i >= 0 && f >= 0) {
+    i += 6.
     return html.substring(i, f);
   }
+}
+
+document.getElementById('submit_query').addEventListener('click', addQuery, false)
+
+function addQuery() {
+  let inputs = document.getElementsByClassName('input_query');
+  let param1 = inputs[0].value;
+  let param2 = inputs[1].value;
 }

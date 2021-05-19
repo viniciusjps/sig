@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,6 +13,7 @@
   <link rel="stylesheet" href="./src/styles.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 </head>
+
 <body>
   <div id="map" class="map"></div>
   <div class="menu">
@@ -53,6 +55,19 @@
     <a href="#" id="popup-closer" class="ol-popup-closer"></a>
     <div id="popup-content"></div>
   </div>
+  <div class="queries">
+    <div class="header">
+      <h2>Adicionar query</h2>
+      <div class="add_query">
+        <input class="input_query" type="text" placeholder="Parâmetro 1">
+        <input class="input_query" type="text" placeholder="Parâmetro 2">
+        <button id="submit_query">Adicionar</button>
+      </div>
+    </div>
+    <div id="query_list" class="query_list">
+    </div>
+  </div>
   <script src="./src/index.js"></script>
 </body>
+
 </html>
