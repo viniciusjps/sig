@@ -230,10 +230,15 @@ function subStringBody(html) {
   }
 }
 
-document.getElementById('submit_query').addEventListener('click', addQuery, false)
+document.getElementById('btn_municipios_rodovias').addEventListener('click', addQuery, false)
+document.getElementById('btn_comprimento_rodovias').addEventListener('click', addQuery, false)
+document.getElementById('btn_usinas_meso').addEventListener('click', addQuery, false)
 
-function addQuery() {
-  let inputs = document.getElementsByClassName('input_query');
+function addQuery(value) {
+  let id = value.target.id.split('btn_')[1];
+  let inputs = document.getElementsByClassName(`param_${id}`);
   let param1 = inputs[0].value;
   let param2 = inputs[1].value;
+  console.log(param1)
+  console.log(param2);
 }

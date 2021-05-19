@@ -182,12 +182,16 @@ ul li:last-child {
 .queries:hover {
   right: 0px;
   min-height: 300px;
+  max-height: 450px;
+  overflow-y: auto;
 }
 
 .queries:hover .add_query {
-  height: 135px;
+  min-height: 135px;
+  height: unset;
   padding: 10px;
   opacity: 1;
+  border-bottom: 1px solid gainsboro;
 }
 
 .queries h2 {
@@ -202,6 +206,12 @@ ul li:last-child {
 .queries .header {
   align-items: center;
   border-bottom: 1px solid #f0f0f0;
+}
+
+.add_query p {
+  margin: 0px;
+  padding: 5px;
+  margin-bottom: 10px;
 }
 
 .add_query button {
@@ -230,6 +240,7 @@ ul li:last-child {
   transition: 0.3s;
   height: 0px;
   opacity: 0;
+  border-bottom: 0px solid gainsboro;
 }
 
 .add_query input[type="text"] {
