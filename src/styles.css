@@ -6,20 +6,19 @@
 body {
   margin: 0;
   height: 100vh;
+  width: 100vw;
 }
 
 .map {
-  width: calc(100% - 30px);
-  height: calc(100% - 30px);
-  margin: 15px;
-  border-radius: 10px;
-  overflow: hidden;
+  width: 100%;
+  height: 100%;
 }
 
 .menu {
   position: fixed;
   top: 0;
   right: -100px;
+  z-index: 10;
   background: #fff;
   border-radius: 8px;
   margin: 15px;
@@ -167,33 +166,56 @@ ul li:last-child {
 }
 
 .queries {
-  padding: 20px;
+  min-height: 0px;
+  position: fixed;
+  top: 60px;
+  right: -100px;
+  background: #fff;
+  border-radius: 8px;
+  margin: 15px;
+  width: 300px;
+  overflow: hidden;
+  box-shadow: 0px 7px 15px -5px #00000033;
+  transition: 0.3s;
+}
+
+.queries:hover {
+  right: 0px;
   min-height: 300px;
+}
+
+.queries:hover .add_query {
+  height: 135px;
+  padding: 10px;
+  opacity: 1;
 }
 
 .queries h2 {
   margin: 0px;
-  color: #525252;
+  color: #ffffff;
+  background: #3bbdd4;
+  font-size: 16px;
+  font-weight: 400;
+  padding: 15px;
 }
 
 .queries .header {
-  display: flex;
   align-items: center;
   border-bottom: 1px solid #f0f0f0;
-  padding-bottom: 20px;
-  margin-bottom: 20px;
 }
 
 .add_query button {
   border: unset;
-  padding: 10px 20px;
-  border-radius: 10px;
+  padding: 8px 20px;
+  border-radius: 5px;
   background: #3bbdd4;
   color: #fff;
   font-weight: bold;
   outline: none;
   cursor: pointer;
   transition: 0.3s;
+  margin-left: auto;
+  font-size: 11px;
 }
 
 .add_query button:hover {
@@ -202,15 +224,20 @@ ul li:last-child {
 
 .add_query {
   display: flex;
-  margin-left: 15px;
+  flex-direction: column;
+  padding: 0px;
+  background: ghostwhite;
+  transition: 0.3s;
+  height: 0px;
+  opacity: 0;
 }
 
 .add_query input[type="text"] {
   border: unset;
-  background: ghostwhite;
-  padding: 10px;
-  margin-right: 10px;
+  background: #fff;
+  padding: 8px 10px;
   outline: none;
-  border-radius: 10px;
-  box-shadow: inset 0px -2px 8px -3px #0000001a;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  font-size: 12px;
 }
