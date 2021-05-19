@@ -32,24 +32,29 @@ const selected = {
   hidrografia: false,
   policia_1: false,
   universidades: false,
-  etanol: false
+  etanol: false,
+  mesopb: false,
+  queryMunicipios: false,
+  queryRios: false,
+  queryPoliciaRodovia: false
 }
 
 var municipios = new Image({
   title: 'municipios',
   source: new ImageWMS({
     url: 'http://localhost:8080/geoserver/wms',
-    params: { 'LAYERS': 'cite:municipios_pr_pol_p31982_e50_a2014' },
+    params: { 'LAYERS': 'cite:municipios' },
     ratio: 1,
     serverType: 'geoserver'
-  })
+  }),
+  opacity: 0.5
 })
 
 var mesorregioes = new Image({
   title: 'mesorregioes',
   source: new ImageWMS({
     url: 'http://localhost:8080/geoserver/cite/wms',
-    params: { 'LAYERS': 'cite:mesorregioes' },
+    params: { 'LAYERS': 'cite:mesoregioes' },
     ratio: 1,
     serverType: 'geoserver'
   }),
@@ -60,7 +65,7 @@ var rodovias = new Image({
   title: 'Rodovias Unificadas (2013) [SEIL/DER]',
   source: new ImageWMS({
     url: 'http://localhost:8080/geoserver/wms',
-    params: { 'LAYERS': 'cite:rodovias_unificadas_lin_p29192_a2013' },
+    params: { 'LAYERS': 'cite:rodovias' },
     ratio: 1,
     serverType: 'geoserver'
   })
@@ -70,7 +75,7 @@ var hidrografia = new Image({
   title: 'Hidrografia Generalizada [SEMA_AGUASPARANA]',
   source: new ImageWMS({
     url: 'http://localhost:8080/geoserver/wms',
-    params: { 'LAYERS': 'cite:hidrografia_generalizada_lin_p31982_e50_a2011_v002' },
+    params: { 'LAYERS': '	cite:hidrografia' },
     ratio: 1,
     serverType: 'geoserver'
   })
@@ -80,7 +85,7 @@ var policia_1 = new Image({
   title: 'Polícia Rodoviária Estadual [SESP]',
   source: new ImageWMS({
     url: 'http://localhost:8080/geoserver/wms',
-    params: { 'LAYERS': 'cite:policia_rodoviaria_estadual_pto_p4674' },
+    params: { 'LAYERS': 'cite:policia' },
     ratio: 1,
     serverType: 'geoserver'
   })
@@ -90,7 +95,7 @@ var universidades = new Image({
   title: 'Dados Universidades IEES [SETI]',
   source: new ImageWMS({
     url: 'http://localhost:8080/geoserver/wms',
-    params: { 'LAYERS': 'cite:dado_universidade_iees_pto_p29192' },
+    params: { 'LAYERS': 'cite:universidade' },
     ratio: 1,
     serverType: 'geoserver'
   })
@@ -100,11 +105,48 @@ var etanol = new Image({
   title: 'Usinas de Etanol',
   source: new ImageWMS({
     url: 'http://localhost:8080/geoserver/wms',
-    params: { 'LAYERS': 'cite:usinas_etanol_pto_p4674' },
+    params: { 'LAYERS': 'cite:etanol' },
     ratio: 1,
     serverType: 'geoserver'
   })
 })
+
+var queryMunicipios = new Image({
+  title: 'Municipios que não são vizinhos de',
+  source: new ImageWMS({
+    url: 'http://localhost:8080/geoserver/wms',
+    params: { 'LAYERS': 'cite:mun_nao_vizinhos',
+              'viewparams': 'name:Ponta Grossa' },
+    ratio: 1,
+    serverType: 'geoserver'
+  }),
+  opacity:0.5
+})
+
+var queryRios = new Image({
+  title: 'Municípios que são banhados pelo rio',
+  source: new ImageWMS({
+    url: 'http://localhost:8080/geoserver/wms',
+    params: { 'LAYERS': 'cite:rio_mun',
+              'viewparams': 'rio:Iguaçu'},
+    ratio: 1,
+    serverType: 'geoserver'
+  }),
+  opacity:0.5
+})
+
+var queryPoliciaRodovia = new Image({
+  title: 'Munícipios que estão a ... metros da rodovia ...',
+  source: new ImageWMS({
+    url: 'http://localhost:8080/geoserver/wms',
+    params: { 'LAYERS': 'cite:policia_rodovia',
+              'viewparams': 'rod:BR476;dist:10000'
+            },
+    ratio: 1,
+    serverType: 'geoserver'
+  })
+})
+
 
 const layers = {
   municipios: municipios,
@@ -113,7 +155,10 @@ const layers = {
   hidrografia: hidrografia,
   policia_1: policia_1,
   universidades: universidades,
-  etanol: etanol
+  etanol: etanol,
+  queryMunicipios: queryMunicipios,
+  queryRios: queryRios,
+  queryPoliciaRodovia: queryPoliciaRodovia
 }
 
 var view = new View({
@@ -132,7 +177,7 @@ const map = new Map({
   ],
   overlays: [overlay],
   view: view
-});
+}); 
 
 document.getElementById('municipios').addEventListener('click', setLayer, false)
 document.getElementById('mesorregioes').addEventListener('click', setLayer, false)
@@ -141,6 +186,11 @@ document.getElementById('hidrografia').addEventListener('click', setLayer, false
 document.getElementById('policia_1').addEventListener('click', setLayer, false)
 document.getElementById('universidades').addEventListener('click', setLayer, false)
 document.getElementById('etanol').addEventListener('click', setLayer, false)
+document.getElementById('queryMunicipios').addEventListener('click', setLayer, false)
+document.getElementById('queryRios').addEventListener('click', setLayer, false)
+document.getElementById('queryPoliciaRodovia').addEventListener('click', setLayer, false)
+
+
 
 function setLayer(value) {
   let layer = value.target.id;
@@ -183,6 +233,17 @@ map.on('singleclick', function(evt){
   var urlEtanol = etanol.getSource().getFeatureInfoUrl(
     coordinate, viewResolution, viewProjection, {'INFO_FORMAT':'text/html'}
   )
+  var urlQuery1 = queryMunicipios.getSource().getFeatureInfoUrl(
+    coordinate, viewResolution, viewProjection, {'INFO_FORMAT':'text/html'}
+  )
+  var urlQuery2 = queryRios.getSource().getFeatureInfoUrl(
+    coordinate, viewResolution, viewProjection, {'INFO_FORMAT':'text/html'}
+  )
+  var urlQuery3 = queryPoliciaRodovia.getSource().getFeatureInfoUrl(
+    coordinate, viewResolution, viewProjection, {'INFO_FORMAT':'text/html'}
+  )
+  
+  
 
   var urls = new Map()
   urls.set('municipios', urlMunicipios)
@@ -192,6 +253,10 @@ map.on('singleclick', function(evt){
   urls.set('policia_1', urlPolicia)
   urls.set('universidades', urlUniversidades)
   urls.set('etanol', urlEtanol)
+  urls.set('queryMunicipios', urlQuery1)
+  urls.set('queryRios', urlQuery2)
+  urls.set('queryPoliciaRodovia', urlQuery3)
+  
   
   for (const [key, value] of Object.entries(selected)) {
     if(value){
