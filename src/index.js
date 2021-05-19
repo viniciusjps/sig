@@ -234,6 +234,12 @@ document.getElementById('btn_municipios_rodovias').addEventListener('click', add
 document.getElementById('btn_comprimento_rodovias').addEventListener('click', addQuery, false)
 document.getElementById('btn_usinas_meso').addEventListener('click', addQuery, false)
 
+const selected_queries = {
+  municipios_rodovias: false,
+  comprimento_rodovias: false,
+  usinas_meso: false
+}
+
 function addQuery(value) {
   let id = value.target.id.split('btn_')[1];
   let inputs = document.getElementsByClassName(`param_${id}`);
@@ -241,4 +247,19 @@ function addQuery(value) {
   let param2 = inputs[1].value;
   console.log(param1)
   console.log(param2);
+
+  let is_selected = selected_queries[id];
+  if (!is_selected) {
+    selected_queries[id] = true;
+    const button = document.getElementById(`btn_${id}`);
+    button.innerText = 'Remover query';
+    button.className = 'delete';
+    // adicionar consulta
+  } else {
+    selected_queries[id] = false;
+    const button = document.getElementById(`btn_${id}`);
+    button.innerText = 'Adicionar query';
+    button.className = '';
+    // remover consulta
+  }
 }

@@ -228,6 +228,11 @@ ul li:last-child {
   font-size: 11px;
 }
 
+.add_query button.delete,
+.add_query button.delete:hover {
+  background: #ff6c6c;
+}
+
 .add_query button:hover {
   background: #2a8a9b;
 }
