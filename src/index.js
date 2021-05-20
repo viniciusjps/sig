@@ -10,6 +10,7 @@ import { fromLonLat } from "ol/proj";
 var container = document.getElementById('popup');
 var content = document.getElementById('popup-content');
 var closer = document.getElementById('popup-closer');
+var baseUrl = 'http://localhost:8080/geoserver/wms'
 
 var overlay = new Overlay({
   element: container,
@@ -32,24 +33,27 @@ const selected = {
   hidrografia: false,
   policia_1: false,
   universidades: false,
-  etanol: false
+  etanol: false,
 }
 
+// Base Layers
+
 var municipios = new Image({
-  title: 'municipios',
+  title: 'Municípios Paraná',
   source: new ImageWMS({
-    url: 'http://localhost:8080/geoserver/wms',
-    params: { 'LAYERS': 'cite:municipios_pr_pol_p31982_e50_a2014' },
+    url: baseUrl,
+    params: { 'LAYERS': 'cite:municipios' },
     ratio: 1,
     serverType: 'geoserver'
-  })
+  }),
+  opacity: 0.5
 })
 
 var mesorregioes = new Image({
-  title: 'mesorregioes',
+  title: 'Mesorregioes Paraná',
   source: new ImageWMS({
-    url: 'http://localhost:8080/geoserver/cite/wms',
-    params: { 'LAYERS': 'cite:mesorregioes' },
+    url: baseUrl,
+    params: { 'LAYERS': 'cite:mesoregioes' },
     ratio: 1,
     serverType: 'geoserver'
   }),
@@ -57,40 +61,40 @@ var mesorregioes = new Image({
 })
 
 var rodovias = new Image({
-  title: 'Rodovias Unificadas (2013) [SEIL/DER]',
+  title: 'Rodovias Unificadas',
   source: new ImageWMS({
-    url: 'http://localhost:8080/geoserver/wms',
-    params: { 'LAYERS': 'cite:rodovias_unificadas_lin_p29192_a2013' },
+    url: baseUrl,
+    params: { 'LAYERS': 'cite:rodovias' },
     ratio: 1,
     serverType: 'geoserver'
   })
 })
 
 var hidrografia = new Image({
-  title: 'Hidrografia Generalizada [SEMA_AGUASPARANA]',
+  title: 'Hidrografia Generalizada',
   source: new ImageWMS({
-    url: 'http://localhost:8080/geoserver/wms',
-    params: { 'LAYERS': 'cite:hidrografia_generalizada_lin_p31982_e50_a2011_v002' },
+    url: baseUrl,
+    params: { 'LAYERS': '	cite:hidrografia' },
     ratio: 1,
     serverType: 'geoserver'
   })
 })
 
 var policia_1 = new Image({
-  title: 'Polícia Rodoviária Estadual [SESP]',
+  title: 'Polícia Rodoviária Estadual',
   source: new ImageWMS({
-    url: 'http://localhost:8080/geoserver/wms',
-    params: { 'LAYERS': 'cite:policia_rodoviaria_estadual_pto_p4674' },
+    url: baseUrl,
+    params: { 'LAYERS': 'cite:policia' },
     ratio: 1,
     serverType: 'geoserver'
   })
 })
 
 var universidades = new Image({
-  title: 'Dados Universidades IEES [SETI]',
+  title: 'Universidades',
   source: new ImageWMS({
-    url: 'http://localhost:8080/geoserver/wms',
-    params: { 'LAYERS': 'cite:dado_universidade_iees_pto_p29192' },
+    url: baseUrl,
+    params: { 'LAYERS': 'cite:universidade' },
     ratio: 1,
     serverType: 'geoserver'
   })
@@ -99,12 +103,75 @@ var universidades = new Image({
 var etanol = new Image({
   title: 'Usinas de Etanol',
   source: new ImageWMS({
-    url: 'http://localhost:8080/geoserver/wms',
-    params: { 'LAYERS': 'cite:usinas_etanol_pto_p4674' },
+    url: baseUrl,
+    params: { 'LAYERS': 'cite:etanol' },
     ratio: 1,
     serverType: 'geoserver'
   })
 })
+
+// Queries
+
+const joinParams = function (params, params_names) {
+  let result = ''
+  for (let i = 0; i < params.length; index++) {
+    result += `${params_names[i]}:${params[i]};`
+  }
+  result = result.slice(0,-1);
+  console.log('joinParams result', result)
+  return result
+}
+
+const queryMunicipios = function (params) {
+  const params_names = ['name'];
+  const view_params = joinParams(params, params_names);
+
+  return new Image({
+              title: 'Municipios que não são vizinhos de ...',
+              source: new ImageWMS({
+                      url: baseUrl,
+                      params: { 'LAYERS': 'cite:mun_nao_vizinhos',
+                                'viewparams': view_params },
+                      ratio: 1,
+                      serverType: 'geoserver'
+              }),
+              opacity:0.5
+  })
+}
+
+const queryRios = function (params){
+  const params_names = ['rio'];
+  const view_params = joinParams(params, params_names);
+
+  return new Image({
+              title: 'Municípios que são banhados pelo rio ...',
+              source: new ImageWMS({
+                      url: baseUrl,
+                      params: { 'LAYERS': 'cite:rio_mun',
+                                'viewparams': view_params},
+                      ratio: 1,
+                      serverType: 'geoserver'
+              }),
+              opacity:0.5
+  })
+}
+
+const queryPoliciaRodovia = function (params) {
+  const params_names = ['rod','dist'];
+  const view_params = joinParams(params, params_names);
+
+  return new Image({
+              title: 'Munícipios que estão a ... metros da rodovia ...',
+              source: new ImageWMS({
+                      url: baseUrl,
+                      params: { 'LAYERS': 'cite:policia_rodovia',
+                                'viewparams': view_params
+                              },
+                      ratio: 1,
+                      serverType: 'geoserver'
+              })
+  })
+}
 
 const layers = {
   municipios: municipios,
@@ -113,7 +180,7 @@ const layers = {
   hidrografia: hidrografia,
   policia_1: policia_1,
   universidades: universidades,
-  etanol: etanol
+  etanol: etanol,
 }
 
 var view = new View({
@@ -163,25 +230,25 @@ map.on('singleclick', function (evt) {
   var viewResolution = /** @type {number} */ (view.getResolution());
 
   var urlMunicipios = municipios.getSource().getFeatureInfoUrl(
-    coordinate, viewResolution, viewProjection, { 'INFO_FORMAT': 'text/html' }
+    coordinate, viewResolution, viewProjection, {'INFO_FORMAT':'text/html'}
   )
   var urlMesorregioes = mesorregioes.getSource().getFeatureInfoUrl(
-    coordinate, viewResolution, viewProjection, { 'INFO_FORMAT': 'text/html' }
+    coordinate, viewResolution, viewProjection, {'INFO_FORMAT':'text/html'}
   )
   var urlRodovias = rodovias.getSource().getFeatureInfoUrl(
-    coordinate, viewResolution, viewProjection, { 'INFO_FORMAT': 'text/html' }
+    coordinate, viewResolution, viewProjection, {'INFO_FORMAT':'text/html'}
   )
   var urlHidrografia = hidrografia.getSource().getFeatureInfoUrl(
-    coordinate, viewResolution, viewProjection, { 'INFO_FORMAT': 'text/html' }
+    coordinate, viewResolution, viewProjection, {'INFO_FORMAT':'text/html'}
   )
   var urlPolicia = policia_1.getSource().getFeatureInfoUrl(
-    coordinate, viewResolution, viewProjection, { 'INFO_FORMAT': 'text/html' }
+    coordinate, viewResolution, viewProjection, {'INFO_FORMAT':'text/html'}
   )
   var urlUniversidades = universidades.getSource().getFeatureInfoUrl(
-    coordinate, viewResolution, viewProjection, { 'INFO_FORMAT': 'text/html' }
+    coordinate, viewResolution, viewProjection, {'INFO_FORMAT':'text/html'}
   )
   var urlEtanol = etanol.getSource().getFeatureInfoUrl(
-    coordinate, viewResolution, viewProjection, { 'INFO_FORMAT': 'text/html' }
+    coordinate, viewResolution, viewProjection, {'INFO_FORMAT':'text/html'}
   )
 
   var urls = new Map()
@@ -230,23 +297,33 @@ function subStringBody(html) {
   }
 }
 
-document.getElementById('btn_municipios_rodovias').addEventListener('click', addQuery, false)
-document.getElementById('btn_comprimento_rodovias').addEventListener('click', addQuery, false)
-document.getElementById('btn_usinas_meso').addEventListener('click', addQuery, false)
+document.getElementById('btn_queryMunicipios').addEventListener('click', addQuery, false)
+document.getElementById('btn_queryRios').addEventListener('click', addQuery, false)
+document.getElementById('btn_queryPoliciaRodovia').addEventListener('click', addQuery, false)
+
 
 const selected_queries = {
-  municipios_rodovias: false,
-  comprimento_rodovias: false,
-  usinas_meso: false
+  queryMunicipios: false,
+  queryRios: false,
+  queryPoliciaRodovia: false
+}
+
+const queries = {
+  queryMunicipios: queryMunicipios,
+  queryRios: queryRios,
+  queryPoliciaRodovia: queryPoliciaRodovia
+}
+
+const saved_queries = {
+  queryMunicipios: undefined,
+  queryRios: undefined,
+  queryPoliciaRodovia: undefined
 }
 
 function addQuery(value) {
   let id = value.target.id.split('btn_')[1];
-  let inputs = document.getElementsByClassName(`param_${id}`);
-  let param1 = inputs[0].value;
-  let param2 = inputs[1].value;
-  console.log(param1)
-  console.log(param2);
+  let params = document.getElementsByClassName(`param_${id}`).map(elem => elem.value);
+  console.log(params);
 
   let is_selected = selected_queries[id];
   if (!is_selected) {
@@ -254,12 +331,18 @@ function addQuery(value) {
     const button = document.getElementById(`btn_${id}`);
     button.innerText = 'Remover query';
     button.className = 'delete';
-    // adicionar consulta
+    
+    let layer = queries[id](params);
+    saved_queries[id] = layer
+
+    map.addLayer(layer);
+
   } else {
     selected_queries[id] = false;
     const button = document.getElementById(`btn_${id}`);
     button.innerText = 'Adicionar query';
     button.className = '';
-    // remover consulta
+    
+    map.removeLayer(saved_queries[id]);
   }
 }
