@@ -77,8 +77,8 @@ https://drive.google.com/file/d/1xKsnDMj1EQEcDRV8hTE8lsrdYxAxiJk2/view
 
 ## Criar as Tabelas
 Existe duas opções para a criação das tabelas 
-1 - Atraves do Postgis com arquivo .shp
-2-  Atraves do PostGist com os arquivos .sql
+* Atraves do Postgis com arquivo .shp
+* Atraves do PostGist com os arquivos .sql
 
 ## Inicia o projeto
 * npm install
