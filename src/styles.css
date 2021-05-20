@@ -80,21 +80,7 @@ body {
   user-select: none;
 }
 
-.ol-popup {
-  position: absolute;
-  background-color: white;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
-  bottom: 12px;
-  left: -50px;
-  min-width: 280px;
-}
-
-.ol-popup #popup-content div:first-of-type {
-  border: unset !important;
-}
-
-center {
+caption {
   padding: 10px !important;
   background: #3bbdd4 !important;
   color: #fff !important;
@@ -116,53 +102,6 @@ ul li {
 
 ul li:last-child {
   margin-bottom: 0px;
-}
-
-.ol-popup #pop-content div:first-of-type ul {
-  margin: 0px !important;
-}
-
-.ol-popup:after,
-.ol-popup:before {
-  top: 100%;
-  border: solid transparent;
-  content: " ";
-  height: 0;
-  width: 0;
-  position: absolute;
-  pointer-events: none;
-}
-.ol-popup:after {
-  border-top-color: white;
-  border-width: 10px;
-  left: 48px;
-  margin-left: -10px;
-}
-.ol-popup:before {
-  border-top-color: #cccccc;
-  border-width: 11px;
-  left: 48px;
-  margin-left: -11px;
-}
-
-.ol-popup-closer {
-  text-decoration: none;
-  position: absolute;
-  top: -10px;
-  right: -10px;
-  background: #ff6c6c;
-  color: #fff;
-  width: 20px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 15px;
-  font-size: 12px;
-}
-
-.ol-popup-closer:after {
-  content: "✖";
 }
 
 .queries {
@@ -256,4 +195,65 @@ ul li:last-child {
   border-radius: 5px;
   margin-bottom: 10px;
   font-size: 12px;
+}
+
+table {
+  position: absolute;
+  background-color: white;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 0px 0px 10px 10px;
+  bottom: 12px;
+  left: -50px;
+  min-width: 280px;
+  font-size: 12px;
+  font-weight: 300;
+}
+
+.ol-popup {
+  position: absolute;
+}
+
+tbody {
+  display: flex;
+  padding: 10px;
+}
+
+tbody tr {
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  text-transform: capitalize;
+}
+
+tbody tr th {
+  padding-right: 10px;
+  color: #525252;
+}
+
+table caption {
+  padding: 10px !important;
+  background: #3bbdd4 !important;
+  color: #fff !important;
+  border-radius: 10px 10px 0px 0px !important;
+  text-transform: capitalize;
+  font-weight: bold;
+}
+
+.ol-popup-closer {
+  text-decoration: none;
+  position: absolute;
+  background: #ff6c6c;
+  color: #fff;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+  font-size: 12px;
+  z-index: 10;
+}
+
+.ol-popup-closer:after {
+  content: "✖";
 }
