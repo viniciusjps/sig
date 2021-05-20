@@ -81,7 +81,7 @@ Existe duas opções para a criação das tabelas
 2-  Atraves do PostGist com os arquivos .sql
 
 ## Inicia o projeto
-npm install
-npm start
+* npm install
+* npm start
 
 
