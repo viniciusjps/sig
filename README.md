@@ -24,7 +24,6 @@
 
 * OSM (Open Street Maps)
 
- 
 
 ### Arquitetura:
 
@@ -43,7 +42,7 @@
 
  
 
-### Consultas
+### Consultas:
 
 * 1 Usando buffer
 
@@ -52,36 +51,26 @@
 
 * 1 consulta métrica
 
-# Tecnologias
 
-* PgAdmin
-* PostGrees + PostGis
-* Geoserver
-* JavaScrip + Html + Css
-* npm
-
-
-## Baixa o geoserver
+## Baixa o geoserver:
 http://sourceforge.net/projects/geoserver/files/GeoServer/2.19.0/geoserver-2.19.0-bin.zip
 
-## Descompacta os arquivos do geoserver
+## Descompacta os arquivos do geoserver:
 Após isso, descompacta o arquivo cite.tar e coloca a pasta dentro do Geoserver, no caminho:
 
 /data_dir/workspaces
 
-## Inicia o geoserver
+## Inicia o geoserver:
 ./bin/startup.sh
 
-## Baixar ShapeFiles
+## Baixar ShapeFiles:
 https://drive.google.com/file/d/1xKsnDMj1EQEcDRV8hTE8lsrdYxAxiJk2/view
 
-## Criar as Tabelas
+## Criar as Tabelas:
 Existe duas opções para a criação das tabelas 
-* Atraves do Postgis com arquivo .shp
-* Atraves do PostGist com os arquivos .sql
+* Através do PostGis com arquivo .shp
+* Através do PostGis com os arquivos .sql
 
-## Inicia o projeto
+## Inicia o projeto:
 * npm install
 * npm start
-
-
